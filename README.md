@@ -26,18 +26,18 @@ cp .env.example .env
 
 ```bash
 ./scripts/start.sh python
-./scripts/python.sh /workspace/mi-proyecto
+./scripts/python.sh /workspace/my-project
 ```
 
 ```bash
 ./scripts/start.sh java
-./scripts/java.sh /workspace/mi-proyecto
+./scripts/java.sh /workspace/my-project
 ```
 
 ### Use OpenCode in a project
 
 ```bash
-./scripts/opencode.sh /workspace/webcv
+./scripts/opencode.sh /workspace/my-project
 ```
 
 ## Qué incluye
