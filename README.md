@@ -360,8 +360,8 @@ devlab/
 ## Roadmap
 
 ### v1.1
-- [ ] Script de actualización de servicio
-- [ ] Mejorar la documentación de los scripts
+- [ ] Script de actualización de servicio *(en desarrollo)*
+- [ ] Mejorar la documentación *(en desarrollo)*
 - [ ] Usuario 'developer'
 - [ ] UID/GID
 - [ ] Tests autmáticos
