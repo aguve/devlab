@@ -361,6 +361,7 @@ devlab/
 
 ### v1.1
 - [ ] Script de actualización de servicio
+- [ ] Mejorar la documentación de los scripts
 - [ ] Usuario 'developer'
 - [ ] UID/GID
 - [ ] Tests autmáticos
