@@ -14,7 +14,7 @@ cp .env.example .env
 ./scripts/start.sh
 ```
 
-> **Nota:** El directorio `data/` se crea automáticamente en el primer arranque con los datos de MySQL y OpenCode.
+> **Nota:** El directorio data/opencode/ se crea automáticamente para persistir la configuración y estado de OpenCode. Los datos de MySQL se almacenan en el volumen Docker mysql-data.
 
 ### Check the environment
 
@@ -26,12 +26,18 @@ cp .env.example .env
 
 ```bash
 ./scripts/start.sh python
-./scripts/python.sh
+./scripts/python.sh /workspace/mi-proyecto
 ```
 
 ```bash
 ./scripts/start.sh java
-./scripts/java.sh
+./scripts/java.sh /workspace/mi-proyecto
+```
+
+### Use OpenCode in a project
+
+```bash
+./scripts/opencode.sh /workspace/webcv
 ```
 
 ## Qué incluye
@@ -175,8 +181,17 @@ Los demás scripts aceptan parámetros para filtrar por servicio:
 | `./scripts/python.sh` | Shell bash en el contenedor Python |
 | `./scripts/java.sh` | Shell bash en el contenedor Java |
 | `./scripts/tools.sh` | Shell bash en el contenedor Tools |
-| `./scripts/opencode.sh` | Shell bash en el contenedor OpenCode |
+| `./scripts/opencode.sh` | Shell sh en el contenedor OpenCode (usa busybox, no bash) |
 | `./scripts/mysql.sh` | Cliente MySQL interactivo (lee credenciales de `.env`) |
+
+Los scripts de acceso aceptan un parámetro opcional con el directorio de trabajo:
+
+```bash
+./scripts/opencode.sh                    # Abre en /workspace
+./scripts/opencode.sh /workspace/webcv   # Abre en /workspace/webcv
+./scripts/java.sh /workspace/webcv       # Abre Java en /workspace/webcv
+./scripts/python.sh /workspace/mi-proyecto  # Abre Python en /workspace/mi-proyecto
+```
 
 ### Puertos expuestos
 
