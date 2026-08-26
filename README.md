@@ -140,9 +140,6 @@ JAVA_VERSION=21-jdk
 MYSQL_VERSION=8.4
 
 # UID/GID del usuario del host
-HOST_UID=1000
-HOST_GID=1000
-HOST_USER=youruser
 ```
 
 ## Uso
