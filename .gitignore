@@ -1,0 +1,10 @@
+# Variables de entorno (credenciales)
+.env
+
+# Datos persistentes
+.devlab-log
+.idea/
+data/
+
+# Logs
+*.log

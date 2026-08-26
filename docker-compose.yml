@@ -1,0 +1,141 @@
+name: devlab
+
+services:
+
+  opencode:
+    image: ghcr.io/anomalyco/opencode:${OPENCODE_VERSION}
+    container_name: devlab-opencode
+
+    restart: unless-stopped
+
+    stdin_open: true
+    tty: true
+
+    working_dir: /workspace
+
+    volumes:
+      - ${HOST_WORKSPACE}:/workspace
+
+      - ./data/opencode/config:/root/.config/opencode
+      - ./data/opencode/share:/root/.local/share/opencode
+      - ./data/opencode/state:/root/.local/state/opencode
+      - ./data/opencode/cache:/root/.cache/opencode
+
+    networks:
+      - devlab
+
+  python:
+    build:
+      context: ./images/python-dev
+
+    image: devlab/python-dev:1.0
+
+    container_name: devlab-python
+
+    restart: unless-stopped
+
+    working_dir: /workspace
+
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - ${HOST_WORKSPACE}:/workspace
+
+    ports:
+      - "8000:8000"
+      - "8888:8888"
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    networks:
+      - devlab
+
+  java:
+    build:
+      context: ./images/java-dev
+
+    image: devlab/java-dev:1.0
+
+    container_name: devlab-java
+
+    restart: unless-stopped
+
+    working_dir: /workspace
+
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - ${HOST_WORKSPACE}:/workspace
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    networks:
+      - devlab
+
+  tools:
+    build:
+      context: ./images/tools
+
+    image: devlab/tools:1.0
+
+    container_name: devlab-tools
+
+    restart: unless-stopped
+
+    working_dir: /workspace
+
+    stdin_open: true
+    tty: true
+
+    volumes:
+      - ${HOST_WORKSPACE}:/workspace
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    networks:
+      - devlab
+
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+
+    container_name: devlab-mysql
+
+    restart: unless-stopped
+
+    environment:
+      TZ: ${TZ}
+
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+    networks:
+      - devlab
+
+networks:
+  devlab:
+    driver: bridge
+    
+volumes:
+  mysql-data:
